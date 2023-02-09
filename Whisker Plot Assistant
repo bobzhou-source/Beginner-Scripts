@@ -1,0 +1,60 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+#include <iomanip>
+
+int main()
+{
+    float arr[] = {1.2,3.1,5.2,9.2,5.2,9.4,5.3};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    float q1,q3,median,temp,iqr;
+    int count,mode,countMode;
+    sort(arr, arr + n);
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout<<endl<<"# of elements: "<<n<<endl;
+    if(n%2!=0){
+        cout<<"Median: "<<arr[n/2]<<endl;
+        q1=arr[n/4];
+        q3=arr[3*n/4];
+    }
+    else{
+        median=arr[n/2]+arr[(n-1)/2];
+        median/=2;
+        cout<<"Median: "<<median<<endl;
+        q1=arr[n/4]+arr[(n-1)/4];
+        q1/=2;
+        q3=arr[(3*n)/4]+arr[((3*n)-1)/4];
+        q3/=2;
+    }
+    temp=arr[0];
+    for(int i=0; i<n; i++){
+        if(temp==arr[i]){
+            count++;
+        }
+        else
+        {
+            if (count > countMode) 
+            {
+                countMode = count;
+                mode = temp;
+            }
+            count = 1;
+            temp = arr[i];
+        }
+        if (count > countMode) 
+        {
+            countMode = count;
+            mode = temp;
+        }
+    }
+    cout<<"Q1: "<<q1<<endl;
+    cout<<"Q3: "<<q3<<endl;
+    iqr=(q3-q1);
+    cout<<"IQR (Q3-Q1): "<<iqr<<endl;
+    cout<<"Max (q3+1.5*IQR): "<<(q3+(1.5*iqr))<<endl;
+    cout<<"Min (q1-1.5*IQR): "<<(q1-(1.5*iqr))<<endl;
+    cout<<"Mode (Most Repeating Number): "<<mode<<endl;
+    cout<<"Range (Biggest Number minus smallest number): "<<(arr[n-1]-arr[0])<<endl;
+    return 0;
+}
