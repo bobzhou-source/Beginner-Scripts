@@ -1,4 +1,4 @@
-(function() {
+javascript:(function() {
   var sentence = prompt("Enter what to spam the search history with:");
   var numTimes = prompt("Enter the number of times to spam:");
 
