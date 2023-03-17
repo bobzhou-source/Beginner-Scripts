@@ -1,0 +1,31 @@
+(function() {
+  var sentence = prompt("Enter what to spam the search history with:");
+  var numTimes = prompt("Enter the number of times to spam:");
+
+  var words = sentence.split(" ");
+
+  var promises = words.map(function(word) {
+    return fetch(`https://api.datamuse.com/words?rel_syn=${word}`)
+      .then(response => response.json());
+  });
+
+  Promise.all(promises).then(function(data) {
+    var query = "";
+    for(var i = 0; i < words.length; i++) {
+      var word = words[i];
+      var synonyms = data[i].map(synonym => synonym.word);
+      var modifiedWord = word;
+      if(synonyms.length > 0) {
+        var randomIndex = Math.floor(Math.random() * synonyms.length);
+        var randomSynonym = synonyms[randomIndex];
+        modifiedWord = randomSynonym;
+      }
+      query += modifiedWord + " ";
+    }
+    for(var i = 0; i < numTimes; i++) {
+      var newTab = window.open(`https://www.google.com/search?q=${query}`, '_blank');
+      newTab.blur();
+      window.focus();
+    }
+  });
+})();
